@@ -109,7 +109,12 @@ demo = gr.ChatInterface(
     description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
 )
 
-import os
+import gradio as gr
+
+def chatbot(message):
+    return f"Response to: {message}"
+
+iface = gr.Interface(fn=chatbot, inputs="text", outputs="text")
 
 if __name__ == "__main__":
-    demo.launch(server_port=int(os.getenv("PORT", 7860)), server_name="0.0.0.0")
+    iface.launch(server_port=8080)
