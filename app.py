@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import gradio as gr
 import requests
 from huggingface_hub import InferenceClient
@@ -42,7 +40,7 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
     # Add system context
     messages = [{"role": "system", "content": system_message}]
 
-    # Add previous conversation history
+    # Add previous conversation history in the new format
     for entry in history:
         messages.append({"role": "user", "content": entry["user"]})
         messages.append({"role": "assistant", "content": entry["assistant"]})
