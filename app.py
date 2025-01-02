@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-chmod +x app.py
 
 import gradio as gr
 import requests
 from huggingface_hub import InferenceClient
 
 """
-For more information on `huggingface_hub` Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference
+For more information on huggingface_hub Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference
 """
 client = InferenceClient("HuggingFaceH4/zephyr-7b-beta")
 
@@ -112,12 +111,8 @@ demo = gr.ChatInterface(
     description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
 )
 
-import gradio as gr
-
-def chatbot(message):
-    return f"Response to: {message}"
-
-iface = gr.Interface(fn=chatbot, inputs="text", outputs="text")
-
 if __name__ == "__main__":
-    iface.launch(server_port=8080)
+    # Dynamically bind to the port provided by Render
+    import os
+    port = int(os.environ.get("PORT", 8080))
+    demo.launch(server_port=port, server_name="0.0.0.0")
