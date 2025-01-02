@@ -40,7 +40,7 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
     # Add system context
     messages = [{"role": "system", "content": system_message}]
 
-    # Add previous conversation history in the new format
+    # Add previous conversation history in the correct format
     for entry in history:
         messages.append({"role": "user", "content": entry["user"]})
         messages.append({"role": "assistant", "content": entry["assistant"]})
@@ -73,7 +73,7 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
     history.append({"user": message, "assistant": response.strip()})
     return history
 
-# Gradio Chat Interface setup
+# Gradio Chat Interface setup with type="messages"
 demo = gr.ChatInterface(
     respond,
     additional_inputs=[
@@ -92,7 +92,8 @@ demo = gr.ChatInterface(
         ),
     ],
     title="Crypto & Chill Bot",
-    description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!"
+    description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
+    type="messages"  # This ensures the messages are treated correctly
 )
 
 # Launch the app
