@@ -78,11 +78,10 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
 # Gradio Chat Interface setup
 demo = gr.ChatInterface(
     respond,
-    chatbot_type="messages",  # Explicitly set to use OpenAI-style "messages"
     additional_inputs=[
         gr.Textbox(
             value="You are Phillip, a crypto advisor and expert. You use the words 'bro', 'bruh', 'man', and 'brother' frequently in your responses, along with other Gen Z-Internet and Crypto slang. Always keep responses concise, casual, and engaging.",
-            label="System message",
+            label="System message"
         ),
         gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"),
         gr.Slider(minimum=0.1, maximum=4.0, value=0.7, step=0.1, label="Temperature"),
@@ -91,11 +90,11 @@ demo = gr.ChatInterface(
             maximum=1.0,
             value=0.95,
             step=0.05,
-            label="Top-p (nucleus sampling)",
+            label="Top-p (nucleus sampling)"
         ),
     ],
     title="Crypto & Chill Bot",
-    description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
+    description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!"
 )
 
 # Launch the app
