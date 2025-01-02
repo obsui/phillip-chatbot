@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+chmod +x app.py
+
 import gradio as gr
 import requests
 from huggingface_hub import InferenceClient
