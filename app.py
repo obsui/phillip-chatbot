@@ -45,7 +45,7 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
     # Use the new format for the output
     return [{"role": "assistant", "content": response.strip()}]
 
-):
+
     """
     Respond to user input with immediate and direct responses.
     """
