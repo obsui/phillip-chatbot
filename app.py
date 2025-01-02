@@ -111,8 +111,8 @@ demo = gr.ChatInterface(
     description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
 )
 
+import os
+
 if __name__ == "__main__":
-    # Dynamically bind to the port provided by Render
-    import os
-    port = int(os.environ.get("PORT", 8080))
+    port = int(os.environ.get("PORT", 8080))  # Default to 8080 if no PORT is provided
     demo.launch(server_port=port, server_name="0.0.0.0")
