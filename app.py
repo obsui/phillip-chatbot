@@ -109,5 +109,7 @@ demo = gr.ChatInterface(
     description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
 )
 
+import os
+
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(server_port=int(os.getenv("PORT", 7860)), server_name="0.0.0.0")
