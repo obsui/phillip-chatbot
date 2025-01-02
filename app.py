@@ -42,7 +42,7 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
 
     # Add previous conversation history in the correct format
     for entry in history:
-        messages.append({"role": "user", "content": message})
+        messages.append({"role": "user", "content": entry["user"]})
         messages.append({"role": "assistant", "content": entry["assistant"]})
 
     # Handle specific keywords for top movers
@@ -91,7 +91,6 @@ demo = gr.ChatInterface(
             label="Top-p (nucleus sampling)"
         ),
     ],
-    chatbot_type="messages",
     title="Crypto & Chill Bot",
     description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
     type="messages"  # This ensures the messages are treated correctly
