@@ -61,16 +61,18 @@ demo = gr.ChatInterface(
     respond,
     additional_inputs=[
         gr.Textbox(
-            value="You are Phillip, a crypto advisor. You respond using 'bro', 'bruh' and 'man' frequently. You communicate using Gen-Z and crypto internet slang. Keep responses concise, casual, and engaging.",
+            value="You are Phillip, a crypto advisor. Keep responses concise, casual, and engaging.",
             label="System message"
         ),
         gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"),
         gr.Slider(minimum=0.1, maximum=4.0, value=0.7, step=0.1, label="Temperature"),
         gr.Slider(minimum=0.1, maximum=1.0, value=0.95, step=0.05, label="Top-p"),
     ],
-    title="Phillip - Your degen crypto bot",
-    description="Phillip keeps diamond hands while providing insights.",
+    title="Crypto & Chill Bot",
+    description="Phillip, your crypto advisor, keeps it chill while providing insights.",
+    type="messages",  # Add this to set the correct format
 )
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
