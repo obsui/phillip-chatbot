@@ -4,7 +4,7 @@ from huggingface_hub import InferenceClient
 import os
 
 # Initialize the HuggingFace Inference Client
-client = InferenceClient("HuggingFaceH4/zephyr-7b-beta")
+client = InferenceClient(model="HuggingFaceH4/zephyr-7b-beta", token="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")
 
 # CoinMarketCap API configuration
 CMC_API_KEY = "df92670d-41c3-4740-81a6-9477d10e24bd"
@@ -42,7 +42,7 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
 
     # Add previous conversation history in the correct format
     for entry in history:
-        messages.append(messages.append({"role": "user", "content": message})
+        messages.append({"role": "user", "content": message})
         messages.append({"role": "assistant", "content": entry["assistant"]})
 
     # Handle specific keywords for top movers
