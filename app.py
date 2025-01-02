@@ -36,13 +36,15 @@ def get_top_movers_1h():
     except requests.RequestException as e:
         return [f"Error: {str(e)}"]
 
-def respond(
-    message,
-    history: list[tuple[str, str]],
-    system_message,
-    max_tokens,
-    temperature,
-    top_p,
+def respond(message, history, system_message, max_tokens, temperature, top_p):
+    messages = [{"role": "system", "content": system_message}]
+    for user_msg, bot_msg in history:
+        messages.append({"role": "user", "content": user_msg})
+        messages.append({"role": "assistant", "content": bot_msg})
+    ...
+    # Use the new format for the output
+    return [{"role": "assistant", "content": response.strip()}]
+
 ):
     """
     Respond to user input with immediate and direct responses.
@@ -106,7 +108,6 @@ demo = gr.ChatInterface(
             label="Top-p (nucleus sampling)",
         ),
     ],
-    theme="compact",
     title="Crypto & Chill Bot",
     description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
 )
