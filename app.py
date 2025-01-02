@@ -48,11 +48,15 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
     # Handle specific keywords for top movers
     if any(keyword in message.lower() for keyword in ["coin", "market", "ticker", "pump", "memecoin"]):
         coins = get_top_movers_1h()
-        return history + [{"user": message, "assistant": "\n".join(coins)}]
+        history.append({"role": "user", "content": message})
+        history.append({"role": "assistant", "content": "\n".join(coins)})
+        return history
 
     # Handle casual greetings
     if message.lower() in ["yerr", "yo", "sup", "hey"]:
-        return history + [{"user": message, "assistant": "Sup? Let me know if you need anything crypto or just wanna chat!"}]
+        history.append({"role": "user", "content": message})
+        history.append({"role": "assistant", "content": "Sup? Let me know if you need anything crypto or just wanna chat!"})
+        return history
 
     # Add the user message to conversation context
     messages.append({"role": "user", "content": message})
@@ -70,7 +74,8 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
         response += token
 
     # Add response to history
-    history.append({"user": message, "assistant": response.strip()})
+    history.append({"role": "user", "content": message})
+    history.append({"role": "assistant", "content": response.strip()})
     return history
 
 # Gradio Chat Interface setup with type="messages"
