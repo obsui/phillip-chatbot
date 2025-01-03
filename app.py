@@ -1,6 +1,3 @@
-I'll help you modify your code to prevent the chatbot from generating its own user messages. Here's how we'll fix it by modifying the system message and response handling:
-
-```python
 import gradio as gr
 import requests
 from huggingface_hub import InferenceClient
