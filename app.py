@@ -35,48 +35,49 @@ def get_top_movers_1h():
 
 def respond(message, history, system_message, max_tokens, temperature, top_p):
     """
-    Respond to user input with direct and informative replies.
+    Debug-friendly version of the respond function.
     """
-    # Add system context
-    messages = [{"role": "system", "content": system_message}]
+    try:
+        # Add system context
+        messages = [{"role": "system", "content": system_message}]
 
-    # Add previous conversation history in the correct format
-    for entry in history:
-        messages.append({"role": "user", "content": entry["user"]})
-        messages.append({"role": "assistant", "content": entry["assistant"]})
+        # Add previous conversation history
+        for entry in history:
+            if "user" in entry and "assistant" in entry:
+                messages.append({"role": "user", "content": entry["user"]})
+                messages.append({"role": "assistant", "content": entry["assistant"]})
+            else:
+                return [{"role": "assistant", "content": "Error: Invalid history format."}]
 
-    # Handle specific keywords for top movers
-    if any(keyword in message.lower() for keyword in ["coin", "market", "ticker", "pump", "memecoin"]):
-        coins = get_top_movers_1h()
+        # Add user message
+        messages.append({"role": "user", "content": message})
+
+        # Check for specific commands
+        if any(keyword in message.lower() for keyword in ["coin", "market", "ticker", "pump", "memecoin"]):
+            coins = get_top_movers_1h()
+            history.append({"role": "user", "content": message})
+            history.append({"role": "assistant", "content": "\n".join(coins)})
+            return history
+
+        # Generate response via Hugging Face API
+        response = ""
+        for msg in client.chat_completion(
+            messages,
+            max_tokens=max_tokens,
+            stream=True,
+            temperature=temperature,
+            top_p=top_p,
+        ):
+            token = msg.choices[0].delta.content
+            response += token
+
+        # Add response to history
         history.append({"role": "user", "content": message})
-        history.append({"role": "assistant", "content": "\n".join(coins)})
+        history.append({"role": "assistant", "content": response.strip()})
         return history
 
-    # Handle casual greetings
-    if message.lower() in ["yerr", "yo", "sup", "hey"]:
-        history.append({"role": "user", "content": message})
-        history.append({"role": "assistant", "content": "Sup? Let me know if you need anything crypto or just wanna chat!"})
-        return history
-
-    # Add the user message to conversation context
-    messages.append({"role": "user", "content": message})
-
-    # Generate response using Hugging Face Inference API
-    response = ""
-    for msg in client.chat_completion(
-        messages,
-        max_tokens=max_tokens,
-        stream=True,
-        temperature=temperature,
-        top_p=top_p,
-    ):
-        token = msg.choices[0].delta.content
-        response += token
-
-    # Add response to history
-    history.append({"role": "user", "content": message})
-    history.append({"role": "assistant", "content": response.strip()})
-    return history
+    except Exception as e:
+        return [{"role": "assistant", "content": f"Error: {str(e)}"}]
 
 # Gradio Chat Interface setup with type="messages"
 demo = gr.ChatInterface(
