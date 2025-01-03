@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Jopi<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,45 +6,97 @@
   <title>Phillip Chatbot - Crypto Advisor</title>
   <style>
     body {
-      font-family: 'Roboto', sans-serif;
-      text-align: center;
+      background: url('static/images/phillips background.png.png') no-repeat center center fixed;
+      background-size: cover;
+      filter: brightness(0.5); /* Darkens the image */
+      color: white; /* Ensures text is visible */
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(to bottom right, #1e1e1e, #3e3e3e);
-      color: #f0f0f0;
     }
-    h1 {
-      margin-top: 20px;
-      font-size: 2.5em;
-      color: #ffffff;
+
+    h1, p {
+      text-align: center;
+      margin: 10px 0;
     }
+
+    .chat-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      height: 90vh;
+    }
+
+    .chatbox {
+      width: 60%;
+      height: 80vh;
+      background: rgba(0, 0, 0, 0.8); /* Semi-transparent background for the chatbox */
+      border-radius: 8px;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .profile-section {
+      width: 35%;
+      text-align: center;
+      color: white;
+    }
+
+    .profile-picture {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid limegreen;
+      margin: 0 auto;
+    }
+
+    .status {
+      color: limegreen;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
     iframe {
-      border: 2px solid #4caf50;
-      border-radius: 10px;
-      width: 90%;
-      height: 600px;
-      max-width: 1200px;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
-    footer {
-      margin-top: 20px;
-      font-size: 0.9em;
-      color: #bbb;
-    }
-    a {
-      color: #4caf50;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
+
+    @media (max-width: 768px) {
+      .chat-container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .chatbox {
+        width: 90%;
+        height: 60vh;
+        margin-bottom: 20px;
+      }
+
+      .profile-section {
+        width: 90%;
+        margin: 20px auto;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Phillip Chatbot - Your Crypto Advisor</h1>
+  <h1>Phillip Chatbot - Your Degen Crypto Advisor</h1>
   <p>Chat with Phillip for the latest crypto insights and advice!</p>
-  <iframe src="https://phillip-chatbot.onrender.com" title="Phillip Chatbot"></iframe>
+  <div class="chat-container">
+    <div class="chatbox">
+      <iframe src="https://phillip-chatbot.onrender.com" title="Phillip Chatbot"></iframe>
+    </div>
+    <div class="profile-section">
+      <img src="static/images/phillips profile picture.png.png" alt="Phillip's Picture" class="profile-picture">
+      <p class="status">Phillip is online</p>
+    </div>
+  </div>
   <footer>
-    <p>Built with ❤️ using <a href="https://gradio.app" target="_blank">Gradio</a> and hosted on <a href="https://render.com" target="_blank">Render</a>.</p>
+    <p style="text-align: center;">Join The Telegram Community! #NOREGRETS <a href="https://t.me/NOREGRETSCOIN" target="_blank">Gradio</a> Follow The $NOREGRETS X Account <a href="https://x.com/NOREGRETSCOIN" target="_blank">Render</a>.</p>
   </footer>
 </body>
 </html>
