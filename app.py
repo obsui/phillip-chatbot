@@ -4,11 +4,11 @@ from huggingface_hub import InferenceClient
 import os
 
 # Fetch API tokens from environment variables
-HF_API_TOKEN = os.getenv("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")
+HF_API_TOKEN = os.getenv("HF_API_TOKEN")
 if not HF_API_TOKEN:
     raise ValueError("Hugging Face API token not found. Please set HF_API_TOKEN environment variable")
 
-CMC_API_KEY = os.getenv("df92670d-41c3-4740-81a6-9477d10e24bd")
+CMC_API_KEY = os.getenv("CMC_API_KEY")
 if not CMC_API_KEY:
     raise ValueError("CoinMarketCap API key not found. Please set CMC_API_KEY environment variable")
 
@@ -16,7 +16,7 @@ if not CMC_API_KEY:
 client = InferenceClient(model="HuggingFaceH4/zephyr-7b-beta", token=HF_API_TOKEN)
 
 CMC_BASE_URL_LATEST = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
-HEADERS = {"X-CMC_PRO_API_KEY": CMC_API_KEY}  # Use environment variable here
+HEADERS = {"X-CMC_PRO_API_KEY": CMC_API_KEY}
 
 def get_top_movers_1h():
     params = {
