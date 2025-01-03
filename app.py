@@ -7,14 +7,12 @@ import os
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")
 if not HF_API_TOKEN:
     raise ValueError("Hugging Face API token not found. Please set HF_API_TOKEN environment variable")
-
 CMC_API_KEY = os.getenv("CMC_API_KEY")
 if not CMC_API_KEY:
     raise ValueError("CoinMarketCap API key not found. Please set CMC_API_KEY environment variable")
 
 # Initialize the HuggingFace Inference Client
 client = InferenceClient(model="HuggingFaceH4/zephyr-7b-beta", token=HF_API_TOKEN)
-
 CMC_BASE_URL_LATEST = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
 HEADERS = {"X-CMC_PRO_API_KEY": CMC_API_KEY}
 
@@ -37,29 +35,24 @@ def get_top_movers_1h():
     except requests.RequestException as e:
         return f"Error: {str(e)}"
 
-# Previous imports remain the same...
-
 def respond(message, history, system_message, max_tokens, temperature, top_p):
     try:
         # Add system context
         messages = [{"role": "system", "content": system_message}]
         
-        # Convert history to the new message format
-        if history:
-            for human, assistant in history:
-                messages.extend([
-                    {"role": "user", "content": human},
-                    {"role": "assistant", "content": assistant}
-                ])
-        
+        # Add conversation history
+        for human, assistant in history:
+            messages.append({"role": "user", "content": human})
+            messages.append({"role": "assistant", "content": assistant})
+            
         # Add current message
         messages.append({"role": "user", "content": message})
         
-        # Check for crypto-related keywords (same as before)
+        # Check for crypto-related keywords
         if any(keyword in message.lower() for keyword in ["coin", "market", "ticker", "pump", "memecoin"]):
             return get_top_movers_1h()
-        
-        # Generate response via Hugging Face API (same as before)
+            
+        # Generate response via Hugging Face API
         response = ""
         for msg in client.chat_completion(
             messages,
@@ -74,7 +67,7 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Update the ChatInterface initialization to use the new message format
+# Gradio Chat Interface setup
 demo = gr.ChatInterface(
     respond,
     additional_inputs=[
@@ -87,8 +80,7 @@ demo = gr.ChatInterface(
         gr.Slider(minimum=0.1, maximum=1.0, value=0.95, step=0.05, label="Top-p")
     ],
     title="Crypto & Chill Bot",
-    description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
-    message_type="messages"  # This line tells Gradio to use the new message format
+    description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!"
 )
 
 if __name__ == "__main__":
