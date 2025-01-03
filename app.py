@@ -3,13 +3,21 @@ import requests
 from huggingface_hub import InferenceClient
 import os
 
-# Initialize the HuggingFace Inference Client
-client = InferenceClient(model="HuggingFaceH4/zephyr-7b-beta", token="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")
+# Fetch the Hugging Face API token from environment variables
+HF_API_TOKEN = os.getenv("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")
+if not HF_API_TOKEN:
+    raise ValueError("Hugging Face API token not found. Please set HF_API_TOKEN as an environment variable.")
 
-# CoinMarketCap API configuration
-CMC_API_KEY = "df92670d-41c3-4740-81a6-9477d10e24bd"
+# Initialize the HuggingFace Inference Client
+client = InferenceClient(model="HuggingFaceH4/zephyr-7b-beta", token=HF_API_TOKEN)
+
+# Fetch the CoinMarketCap API key from environment variables
+CMC_API_KEY = os.getenv("df92670d-41c3-4740-81a6-9477d10e24bd")
+if not CMC_API_KEY:
+    raise ValueError("CoinMarketCap API key not found. Please set CMC_API_KEY as an environment variable.")
+
 CMC_BASE_URL_LATEST = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
-HEADERS = {"X-CMC_PRO_API_KEY": CMC_API_KEY}
+HEADERS = {"X-CMC_PRO_API_KEY": "df92670d-41c3-4740-81a6-9477d10e24bd"}
 
 def get_top_movers_1h():
     """
