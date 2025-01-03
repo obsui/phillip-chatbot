@@ -1,3 +1,6 @@
+I'll help you modify your code to prevent the chatbot from generating its own user messages. Here's how we'll fix it by modifying the system message and response handling:
+
+```python
 import gradio as gr
 import requests
 from huggingface_hub import InferenceClient
@@ -37,22 +40,25 @@ def get_top_movers_1h():
 
 def respond(message, history, system_message, max_tokens, temperature, top_p):
     try:
-        # Add system context
-        messages = [{"role": "system", "content": system_message}]
+        # Create a more specific system message that prevents self-dialogue
+        enhanced_system_message = system_message + "\nIMPORTANT: You must only respond as the assistant. Never generate or include user messages in your responses. Wait for the user to ask questions and respond directly to them. Do not create fictional dialogue or responses from the user."
         
-        # Add conversation history
+        # Add system context
+        messages = [{"role": "system", "content": enhanced_system_message}]
+        
+        # Add conversation history with explicit roles
         for human, assistant in history:
             messages.append({"role": "user", "content": human})
             messages.append({"role": "assistant", "content": assistant})
-            
+        
         # Add current message
         messages.append({"role": "user", "content": message})
         
         # Check for crypto-related keywords
         if any(keyword in message.lower() for keyword in ["coin", "market", "ticker", "pump", "memecoin"]):
             return get_top_movers_1h()
-            
-        # Generate response via Hugging Face API
+        
+        # Generate response via Hugging Face API with role enforcement
         response = ""
         for msg in client.chat_completion(
             messages,
@@ -63,7 +69,14 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
         ):
             token = msg.choices[0].delta.content
             response += token
-        return response.strip()
+            
+        # Clean up any potential user-style messages that might slip through
+        cleaned_response = response.strip()
+        if "<|user|>" in cleaned_response or "User:" in cleaned_response:
+            cleaned_response = cleaned_response.split("<|user|>")[0].strip()
+            cleaned_response = cleaned_response.split("User:")[0].strip()
+            
+        return cleaned_response
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -72,7 +85,7 @@ demo = gr.ChatInterface(
     respond,
     additional_inputs=[
         gr.Textbox(
-            value="You are Phillip, a crypto advisor and expert. You use the words 'bro', 'bruh', 'man', and 'brother' frequently in your responses, along with other Gen Z-Internet and Crypto slang. Always keep responses concise, casual, and engaging.",
+            value="You are Phillip, a crypto advisor and expert. You use the words 'bro', 'bruh', 'man', and 'brother' frequently in your responses, along with other Gen Z-Internet and Crypto slang. Always keep responses concise, casual, and engaging. Only respond to what the user says - never generate user messages or create dialogue.",
             label="System message"
         ),
         gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"),
