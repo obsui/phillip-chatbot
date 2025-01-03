@@ -37,24 +37,29 @@ def get_top_movers_1h():
     except requests.RequestException as e:
         return f"Error: {str(e)}"
 
+# Previous imports remain the same...
+
 def respond(message, history, system_message, max_tokens, temperature, top_p):
     try:
         # Add system context
         messages = [{"role": "system", "content": system_message}]
         
-        # Add conversation history
-        for human, assistant in history:
-            messages.append({"role": "user", "content": human})
-            messages.append({"role": "assistant", "content": assistant})
-
+        # Convert history to the new message format
+        if history:
+            for human, assistant in history:
+                messages.extend([
+                    {"role": "user", "content": human},
+                    {"role": "assistant", "content": assistant}
+                ])
+        
         # Add current message
         messages.append({"role": "user", "content": message})
-
-        # Check for crypto-related keywords
+        
+        # Check for crypto-related keywords (same as before)
         if any(keyword in message.lower() for keyword in ["coin", "market", "ticker", "pump", "memecoin"]):
             return get_top_movers_1h()
-
-        # Generate response via Hugging Face API
+        
+        # Generate response via Hugging Face API (same as before)
         response = ""
         for msg in client.chat_completion(
             messages,
@@ -65,13 +70,11 @@ def respond(message, history, system_message, max_tokens, temperature, top_p):
         ):
             token = msg.choices[0].delta.content
             response += token
-
         return response.strip()
-
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Gradio Chat Interface setup
+# Update the ChatInterface initialization to use the new message format
 demo = gr.ChatInterface(
     respond,
     additional_inputs=[
@@ -84,7 +87,8 @@ demo = gr.ChatInterface(
         gr.Slider(minimum=0.1, maximum=1.0, value=0.95, step=0.05, label="Top-p")
     ],
     title="Crypto & Chill Bot",
-    description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!"
+    description="Your crypto buddy is here to chat, share insights, and keep things chill. Ask about top movers or anything else!",
+    message_type="messages"  # This line tells Gradio to use the new message format
 )
 
 if __name__ == "__main__":
