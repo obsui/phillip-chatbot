@@ -1,4 +1,4 @@
-Jopi<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,7 +6,7 @@ Jopi<!DOCTYPE html>
   <title>Phillip Chatbot - Crypto Advisor</title>
   <style>
     body {
-      background: url('static/images/phillips background.png.png') no-repeat center center fixed;
+      background: url('static/images/phillips background.png') no-repeat center center fixed;
       background-size: cover;
       filter: brightness(0.5); /* Darkens the image */
       color: white; /* Ensures text is visible */
@@ -22,7 +22,7 @@ Jopi<!DOCTYPE html>
 
     .chat-container {
       display: flex;
-      flex-direction: row;
+      flex-direction: row-reverse; /* Chatbox on the right, profile on the left */
       justify-content: space-between;
       align-items: center;
       padding: 20px;
@@ -53,9 +53,22 @@ Jopi<!DOCTYPE html>
     }
 
     .status {
-      color: limegreen;
-      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-top: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+      text-shadow: 0 0 10px limegreen, 0 0 20px limegreen;
+    }
+
+    .status-circle {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: limegreen;
+      margin-right: 8px;
+      box-shadow: 0 0 10px limegreen, 0 0 20px limegreen;
     }
 
     iframe {
@@ -87,12 +100,18 @@ Jopi<!DOCTYPE html>
   <h1>Phillip Chatbot - Your Degen Crypto Advisor</h1>
   <p>Chat with Phillip for the latest crypto insights and advice!</p>
   <div class="chat-container">
+    <!-- Chatbox Section -->
     <div class="chatbox">
       <iframe src="https://phillip-chatbot.onrender.com" title="Phillip Chatbot"></iframe>
     </div>
+
+    <!-- Profile Section -->
     <div class="profile-section">
-      <img src="static/images/phillips profile picture.png.png" alt="Phillip's Picture" class="profile-picture">
-      <p class="status">Phillip is online</p>
+      <img src="static/images/phillips profile picture.png" alt="Phillip's Picture" class="profile-picture">
+      <div class="status">
+        <div class="status-circle"></div>
+        Phil is online
+      </div>
     </div>
   </div>
   <footer>
