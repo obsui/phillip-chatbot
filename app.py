@@ -4,7 +4,7 @@ from huggingface_hub import InferenceClient
 import os
 
 # Fetch the Hugging Face API token from environment variables
-HF_API_TOKEN = os.getenv("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")
+HF_API_TOKEN = os.getenv("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")
 if not HF_API_TOKEN:
     raise ValueError("Hugging Face API token not found. Please set HF_API_TOKEN as an environment variable.")
 
