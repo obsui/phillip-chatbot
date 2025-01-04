@@ -89,7 +89,7 @@ demo = gr.ChatInterface(
         gr.Slider(minimum=0.1, maximum=4.0, value=0.7, step=0.1, label="Temperature"),
         gr.Slider(minimum=0.1, maximum=1.0, value=0.95, step=0.05, label="Top-p")
     ],
-    title="Phil Bot",
+    title="",
     description="Phil is here to chat, share insights, and hang out. Ask about coins, the market, tickers, or anything else!"
 )
 
