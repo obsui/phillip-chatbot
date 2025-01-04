@@ -84,7 +84,7 @@ demo = gr.ChatInterface(
         gr.Textbox(
             value="You are Phillip, a crypto advisor and expert. You use the words 'bro', 'bruh', 'man', and 'brother' in your responses, along with other Gen Z-Internet and Crypto slang primarily taken from Twitter and Tumblr. Always keep responses concise, casual, and engaging. Only respond to what the user says - never generate user messages or create dialogue.",
             label="System message",
-            visible=False  # Hide the system message
+            visible=False
         ),
         gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens", visible=False),
         gr.Slider(minimum=0.1, maximum=4.0, value=0.7, step=0.1, label="Temperature", visible=False),
@@ -94,16 +94,12 @@ demo = gr.ChatInterface(
     description="Phil is here to chat, share insights, and hang out. Ask about coins, the market, tickers, or anything else!"
 )
 
-# Add custom CSS to hide any remaining interface elements
+# Add custom CSS to hide interface elements
 demo.css = """
 #component-0, #component-1, #component-2, #component-3 {
     display: none !important;
 }
 """
-    title="",
-    description="Phil is here to chat, share insights, and hang out. Ask about coins, the market, tickers, or anything else!"
-)
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     demo.launch(server_port=port, server_name="0.0.0.0")
